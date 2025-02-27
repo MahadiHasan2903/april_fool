@@ -60,23 +60,6 @@ export default class Header2 extends Component {
                         <Link onClick={ClickHandler} to="/">
                           Home
                         </Link>
-                        {/* <ul className="sub-menu">
-                          <li>
-                            <Link onClick={ClickHandler} to="/home">
-                              Home style 1
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/home2">
-                              Home style 2
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/home3">
-                              Home style 3
-                            </Link>
-                          </li>
-                        </ul> */}
                       </li>
                       <li>
                         <Link onClick={ClickHandler} to="/about">
@@ -87,131 +70,13 @@ export default class Header2 extends Component {
                         <Link onClick={ClickHandler} to="/service">
                           Services
                         </Link>
-                        {/* <ul className="sub-menu">
-                          <li>
-                            <Link onClick={ClickHandler} to="/service">
-                              Service
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/service-s2">
-                              Service style 2
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/service-single">
-                              Service Single
-                            </Link>
-                          </li>
-                        </ul> */}
                       </li>
                       <li className="menu-item-has-children">
                         <Link onClick={ClickHandler} to="/project">
                           Projects
                         </Link>
-                        {/* <ul className="sub-menu">
-                          <li>
-                            <Link onClick={ClickHandler} to="/project">
-                              Project
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/project-s2">
-                              Project Style 2
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/project-single">
-                              Project Single
-                            </Link>
-                          </li>
-                        </ul> */}
                       </li>
-                      {/* <li className="menu-item-has-children">
-                        <Link onClick={ClickHandler} to="/">
-                          Pages
-                        </Link>
-                        <ul className="sub-menu">
-                          <li>
-                            <Link onClick={ClickHandler} to="/pricing">
-                              Pricing
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/testimonial">
-                              Testimonial
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/404">
-                              Error 404
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/login">
-                              Login
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/register">
-                              Register
-                            </Link>
-                          </li>
-                        </ul>
-                      </li>
-                      <li className="menu-item-has-children">
-                        <Link onClick={ClickHandler} to="/blog">
-                          Blog
-                        </Link>
-                        <ul className="sub-menu">
-                          <li>
-                            <Link onClick={ClickHandler} to="/blog">
-                              Blog right sidebar
-                            </Link>
-                          </li>
-                          <li>
-                            <Link
-                              onClick={ClickHandler}
-                              to="/blog-left-sidebar"
-                            >
-                              Blog left sidebar
-                            </Link>
-                          </li>
-                          <li>
-                            <Link onClick={ClickHandler} to="/blog-fullwidth">
-                              Blog fullwidth
-                            </Link>
-                          </li>
-                          <li className="menu-item-has-children">
-                            <Link onClick={ClickHandler} to="/">
-                              Blog details
-                            </Link>
-                            <ul className="sub-menu">
-                              <li>
-                                <Link onClick={ClickHandler} to="/blog-single">
-                                  Blog details right sidebar
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  onClick={ClickHandler}
-                                  to="/blog-single-left-sidebar"
-                                >
-                                  Blog details left sidebar
-                                </Link>
-                              </li>
-                              <li>
-                                <Link
-                                  onClick={ClickHandler}
-                                  to="/blog-single-fullwidth"
-                                >
-                                  Blog details fullwidth
-                                </Link>
-                              </li>
-                            </ul>
-                          </li>
-                        </ul>
-                      </li> */}
+
                       <li>
                         <Link onClick={ClickHandler} to="/contact">
                           Contact
@@ -228,7 +93,7 @@ export default class Header2 extends Component {
                         className="theme-btn"
                         to="/login"
                       >
-                        Get Started
+                        Join Us
                       </Link>
                     </div>
                   </div>

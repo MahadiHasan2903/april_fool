@@ -30,7 +30,7 @@ class Hero extends Component {
                   </p>
                 </div>
                 <div className="btns">
-                  <Link to="/login" className="btn theme-btn">
+                  <Link to="/about" className="btn theme-btn">
                     Get Started
                   </Link>
                 </div>
