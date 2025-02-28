@@ -8,12 +8,17 @@ import "./style.scss";
 
 const VerifyPage = () => {
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
   const [resendTimer, setResendTimer] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(false);
   const [emailResend, setEmailResend] = useState(false);
   const otpRefs = useRef(Array(6).fill(null));
 
+  /**
+   * useEffect hook to handle the OTP resend timer functionality.
+   * If resend is disabled, it starts a countdown from 60 seconds and disables the resend button.
+   * Once the timer reaches 0, it enables the resend button and resets the timer to 60.
+   */
   useEffect(() => {
     let timer;
     if (isResendDisabled && resendTimer > 0) {
@@ -27,12 +32,18 @@ const VerifyPage = () => {
     return () => clearInterval(timer);
   }, [isResendDisabled, resendTimer]);
 
+  /**
+   * handleResendClick is invoked when the user clicks the 'Resend OTP' button.
+   * It checks if the resend is allowed, generates a new OTP, updates localStorage with the new OTP,
+   * and sends the OTP to the user's email via emailjs.
+   * Disables the resend button and starts the resend timer.
+   * Displays success or error messages based on the outcome.
+   */
   const handleResendClick = async () => {
     if (isResendDisabled) {
       return;
     }
 
-    // Retrieve user data from localStorage
     const storedData = localStorage.getItem("formData");
     if (!storedData) {
       toast.error("User data not found. Please register again.");
@@ -61,10 +72,10 @@ const VerifyPage = () => {
 
     try {
       await emailjs.send(
-        "service_lskckh8", // Service ID
-        "template_s3a41ht", // Template ID
+        "service_lskckh8",
+        "template_s3a41ht",
         emailParams,
-        "b6m2ibEG_uK-BVgH8" // Public Key
+        "b6m2ibEG_uK-BVgH8"
       );
       toast.success("OTP resent successfully!");
     } catch (error) {
@@ -74,6 +85,11 @@ const VerifyPage = () => {
     }
   };
 
+  /**
+   * handleOtpChange is called whenever the user enters or removes a digit in the OTP input fields.
+   * It updates the OTP values in the state and automatically moves the focus to the next or previous input field
+   * based on whether the user entered a valid digit or deleted a digit.
+   */
   const handleOtpChange = (e, index) => {
     const inputValue = e.target.value;
     const updatedValues = [...otpValues];
@@ -97,6 +113,12 @@ const VerifyPage = () => {
     }
   };
 
+  /**
+   * submitForm is called when the user submits the OTP form.
+   * It validates that all OTP fields are filled and compares the entered OTP with the stored OTP.
+   * If the OTP is correct, it clears the form data from localStorage, shows a success message, and opens a modal.
+   * If the OTP is incorrect, it displays an error message.
+   */
   const submitForm = (e) => {
     e.preventDefault();
 
@@ -106,16 +128,21 @@ const VerifyPage = () => {
     }
 
     const storedData = localStorage.getItem("formData");
+    if (!storedData) {
+      toast.error("No user data found.");
+      return;
+    }
+
     const userData = JSON.parse(storedData);
     const storedOtp = userData.otp;
 
     const enteredOtp = otpValues.join("");
 
     if (Number(storedOtp) === Number(enteredOtp)) {
-      localStorage.removeItem("otp");
+      localStorage.removeItem("formData");
       setOpenModal(true);
       toast.success("OTP Verified Successfully!");
-      setOtpValues(Array(6).fill(""));
+      setOtpValues(Array(6).fill("")); // Reset OTP input fields
     } else {
       toast.error("Invalid OTP, Try again!");
     }

@@ -1,57 +1,63 @@
 import React, { useState } from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  Button,
-  Grid,
-  Paper,
-  TextField,
-} from "@mui/material";
+import { Modal, Box, Typography, Grid } from "@mui/material";
 import { captchaData } from "./data";
-import { toast } from "react-toastify";
 import aprilFoolImage from "../../images/captcha/april-fool.webp";
 
 const CaptchaModal = ({ open, onClose }) => {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
-  const [answer, setAnswer] = useState(""); // State for storing user input
-  const [isAprilFool, setIsAprilFool] = useState(false); // State to show April Fools image
+  const [isAprilFool, setIsAprilFool] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState({});
 
+  /**
+   * currentCategory holds the data for the current category being displayed.
+   * It is derived from the captchaData array using the currentCategoryIndex.
+   */
+  const currentCategory = captchaData[currentCategoryIndex];
+
+  /**
+   * handleOptionClick is invoked when a user clicks on an option in the current category.
+   * It updates the selected options for the current category. If the option is already selected, it removes it;
+   * if not, it adds it to the selected options.
+   */
+  const handleOptionClick = (optionIndex) => {
+    setSelectedOptions((prevSelected) => {
+      const categorySelected = prevSelected[currentCategoryIndex] || [];
+
+      if (categorySelected.includes(optionIndex)) {
+        return {
+          ...prevSelected,
+          [currentCategoryIndex]: categorySelected.filter(
+            (index) => index !== optionIndex
+          ),
+        };
+      } else {
+        return {
+          ...prevSelected,
+          [currentCategoryIndex]: [...categorySelected, optionIndex],
+        };
+      }
+    });
+  };
+
+  /**
+   * handleSubmit is called when the user submits their selections for the current category.
+   * It moves to the next category if there are more categories in the captchaData array.
+   * If the last category is reached, it sets an April Fool's flag to true.
+   */
   const handleSubmit = () => {
-    // Check if the answer is provided
-    if (!answer.trim()) {
-      toast.error("Please write your answer!");
-      return;
-    }
-
-    const currentCategory = captchaData[currentCategoryIndex];
-
-    // Check if the answer matches the optionText with answer: true
-    const correctOption = currentCategory.options.find(
-      (option) => option.answer
-    );
-    if (
-      correctOption &&
-      correctOption.optionText &&
-      correctOption.optionText.toLowerCase() === answer.toLowerCase()
-    ) {
-      toast.success("Correct Answer, Jump to the next one!");
-    } else {
-      toast.error("Wrong answer, Jump to the next one!");
-    }
-
     if (currentCategoryIndex < captchaData.length - 1) {
       setCurrentCategoryIndex(currentCategoryIndex + 1);
-      setAnswer("");
     } else {
-      setIsAprilFool(true); // If last category, show the April Fools image
+      setIsAprilFool(true);
     }
   };
 
-  const currentCategory = captchaData[currentCategoryIndex];
-
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      onClose={isAprilFool ? onClose : undefined}
+      disableBackdropClick
+    >
       <Box
         sx={{
           position: "absolute",
@@ -65,7 +71,7 @@ const CaptchaModal = ({ open, onClose }) => {
           maxHeight: "90vh",
           overflow: "auto",
           width: "90%",
-          maxWidth: "1000px",
+          maxWidth: "1200px",
         }}
       >
         {isAprilFool ? (
@@ -83,86 +89,94 @@ const CaptchaModal = ({ open, onClose }) => {
               gutterBottom
               textAlign="center"
               fontWeight={500}
-              sx={{ marginTop: "20px", marginBottom: "50px" }}
+              sx={{
+                backgroundColor: "#5c6ac5",
+                paddingX: { xs: "20px", sm: "50px" },
+                paddingY: { xs: "15px", sm: "30px" },
+                color: "white",
+              }}
             >
-              Verify yourself using captcha
+              {currentCategory.title}
             </Typography>
             <Box
               sx={{
                 display: "flex",
                 flexDirection: "column",
-                justifyContent: "space-between",
                 gap: "30px",
+                marginY: "50px",
               }}
             >
-              <Typography variant="h4" gutterBottom fontWeight={300}>
-                Q: {currentCategory.title}
-              </Typography>
-
-              <Grid container spacing={3} justifyContent="center">
+              <Grid
+                container
+                justifyContent="center"
+                alignItems="center"
+                gap={1}
+              >
                 {currentCategory.options.map((option, itemIndex) => (
-                  <Grid item xs={12} sm={6} md={4} key={itemIndex}>
-                    <Paper
+                  <Grid
+                    item
+                    xs={12}
+                    sm={5.8}
+                    md={3.8}
+                    key={itemIndex}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      border: `2px solid ${
+                        selectedOptions[currentCategoryIndex]?.includes(
+                          itemIndex
+                        )
+                          ? "#5c6ac5"
+                          : "#666"
+                      }`,
+                      padding: "30px",
+                      position: "relative",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => handleOptionClick(itemIndex)}
+                  >
+                    <Box
                       sx={{
-                        position: "relative",
-                        padding: 2,
-                        textAlign: "center",
-                        backgroundColor: "transparent",
+                        minWidth: "100px",
+                        minHeight: "70px",
+                        width: "200px",
+                        height: { xs: "100px", sm: "200px" },
                         borderRadius: 1,
-                        transition: "background-color 0.3s",
+                        overflow: "hidden",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        backgroundImage: `url(${option.image})`,
+                        backgroundSize: "contain",
+                        backgroundPosition: "center",
+                        backgroundRepeat: "no-repeat",
                       }}
                     >
-                      <Box
-                        sx={{
-                          minWidth: "100px",
-                          minHeight: "70px",
-                          width: "260px",
-                          height: "200px",
-                          borderRadius: 1,
-                          overflow: "hidden",
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                        }}
-                      >
-                        <img
-                          src={option.image}
-                          alt="Option"
-                          style={{
+                      {selectedOptions[currentCategoryIndex]?.includes(
+                        itemIndex
+                      ) && (
+                        <Box
+                          sx={{
+                            position: "absolute",
+                            top: 0,
+                            left: 0,
                             width: "100%",
                             height: "100%",
-                            objectFit: "contain",
-                            objectPosition: "center",
+                            backgroundColor: "rgba(0, 0, 0, 0.5)",
+                            borderRadius: "inherit",
                           }}
                         />
-                      </Box>
-
-                      {option.optionText && (
-                        <Typography variant="h6" sx={{ marginTop: 1 }}>
-                          {option.optionText}
-                        </Typography>
                       )}
-                    </Paper>
+                    </Box>
                   </Grid>
                 ))}
               </Grid>
-
-              <TextField
-                fullWidth
-                label="Answer"
-                variant="outlined"
-                placeholder="Write your answer..."
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)} // Bind answer state to the text field
-                sx={{ marginTop: 1 }}
-              />
-
               <Box
                 sx={{
                   display: "flex",
                   justifyContent: "end",
                   marginTop: 2,
-                  gap: "10px",
                 }}
               >
                 <div className="btns">
@@ -171,28 +185,7 @@ const CaptchaModal = ({ open, onClose }) => {
                     className="btn theme-btn"
                     onClick={handleSubmit}
                   >
-                    Submit
-                  </button>
-                </div>
-
-                <div className="btns">
-                  <button
-                    type="button"
-                    className="btn"
-                    onClick={onClose}
-                    style={{
-                      background: "#666666",
-                      color: "#ffffff",
-                      display: "inline-block",
-                      padding: "14px 45px",
-                      borderRadius: "6px",
-                      textTransform: "capitalize",
-                      boxShadow: " 0 0 0 5px #fff",
-                      fontFamily: "Futura PT",
-                      fontSize: "1.3333333333rem",
-                    }}
-                  >
-                    Cancel
+                    Verify
                   </button>
                 </div>
               </Box>

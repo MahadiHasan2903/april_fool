@@ -2,114 +2,149 @@ import bat1 from "../../images/captcha/bat.png";
 import bat2 from "../../images/captcha/cricket_bat.jpg";
 import bat3 from "../../images/captcha/baseball_bat.jpg";
 
-import swt1 from "../../images/captcha/swt1.png";
-import swt2 from "../../images/captcha/swt2.png";
-import swt3 from "../../images/captcha/swt3.png";
-import swt4 from "../../images/captcha/swt4.png";
+import mouse1 from "../../images/captcha/mouse1.png";
+import mouse2 from "../../images/captcha/mouse2.jpeg";
+import mouse3 from "../../images/captcha/mouse3.jpg";
+
+import cloud1 from "../../images/captcha/cloud1.jpeg";
+import cloud2 from "../../images/captcha/cloud2.png";
+import cloud3 from "../../images/captcha/cloud3.jpg";
+import cloud4 from "../../images/captcha/cloud4.jpg";
+import cloud5 from "../../images/captcha/cloud5.jpg";
+import cloud6 from "../../images/captcha/cloud6.png";
 
 import circle from "../../images/captcha/circle.png";
 import square from "../../images/captcha/square.png";
+import pentagon from "../../images/captcha/pentagon.png";
 import hexagon from "../../images/captcha/hexagon.png";
+import octagon from "../../images/captcha/octagon.png";
+import rectangle from "../../images/captcha/rectangle.png";
 
-import is1 from "../../images/captcha/is1.png";
-import is2 from "../../images/captcha/is2.png";
-import is3 from "../../images/captcha/is3.png";
-
-import captchaString1 from "../../images/captcha/captcha1.png";
+import math1 from "../../images/captcha/math1.png";
+import math2 from "../../images/captcha/math2.png";
+import math3 from "../../images/captcha/math3.png";
+import math4 from "../../images/captcha/math4.png";
+import math5 from "../../images/captcha/math5.png";
+import math6 from "../../images/captcha/math6.png";
 
 export const captchaData = [
   {
-    title: "Which one is circle",
+    title: "Select square with the circle",
     options: [
       {
-        optionText: "A",
         image: hexagon,
         answer: false,
       },
       {
-        optionText: "B",
         image: circle,
         answer: true,
       },
       {
-        optionText: "C",
         image: square,
+        answer: false,
+      },
+      {
+        image: pentagon,
+        answer: false,
+      },
+      {
+        image: octagon,
+        answer: true,
+      },
+      {
+        image: rectangle,
         answer: false,
       },
     ],
   },
   {
-    title: "Choose the bat",
+    title: "Select square with the bat",
     options: [
       {
-        optionText: "A",
         image: bat1,
         answer: true,
       },
       {
-        optionText: "B",
         image: bat2,
         answer: false,
       },
       {
-        optionText: "C",
         image: bat3,
         answer: false,
       },
     ],
   },
   {
-    title: "Write the text shown below:",
+    title: "Select squares with the cloud",
     options: [
       {
-        optionText: "",
-        image: captchaString1,
+        image: cloud1,
+        answer: true,
+      },
+      {
+        image: cloud2,
+        answer: false,
+      },
+      {
+        image: cloud3,
+        answer: false,
+      },
+      {
+        image: cloud4,
+        answer: true,
+      },
+      {
+        image: cloud5,
+        answer: false,
+      },
+      {
+        image: cloud6,
         answer: false,
       },
     ],
   },
   {
-    title: "Select square with Convergent Improper Integrals",
+    title: "Select square with the mouse",
     options: [
       {
-        optionText: "A",
-        image: swt1,
+        image: mouse1,
+        answer: true,
+      },
+      {
+        image: mouse2,
         answer: false,
       },
       {
-        optionText: "B",
-        image: swt2,
-        answer: false,
-      },
-      {
-        optionText: "C",
-        image: swt3,
-        answer: false,
-      },
-      {
-        optionText: "C",
-        image: swt4,
+        image: mouse3,
         answer: false,
       },
     ],
   },
   {
-    title:
-      "Select the square with a triangle inside a circle that's also a hexagon",
+    title: "Select square with the convergent improper integrals",
     options: [
       {
-        // optionText: "A",
-        image: is1,
+        image: math1,
+        answer: true,
+      },
+      {
+        image: math2,
         answer: false,
       },
       {
-        // optionText: "B",
-        image: is2,
+        image: math3,
         answer: false,
       },
       {
-        // optionText: "C",
-        image: is3,
+        image: math4,
+        answer: true,
+      },
+      {
+        image: math5,
+        answer: false,
+      },
+      {
+        image: math6,
         answer: false,
       },
     ],
