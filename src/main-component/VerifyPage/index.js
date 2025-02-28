@@ -72,11 +72,12 @@ const VerifyPage = () => {
 
     try {
       await emailjs.send(
-        "service_lskckh8",
-        "template_s3a41ht",
+        process.env.REACT_APP_EMAILJS_SERVICE_ID,
+        process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
         emailParams,
-        "b6m2ibEG_uK-BVgH8"
+        process.env.REACT_APP_EMAILJS_USER_ID
       );
+
       toast.success("OTP resent successfully!");
     } catch (error) {
       toast.error("Something went wrong, Please try again!");

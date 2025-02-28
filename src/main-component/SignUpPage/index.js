@@ -53,10 +53,10 @@ const SignUpPage = () => {
 
       try {
         await emailjs.send(
-          "service_lskckh8", // Service ID
-          "template_s3a41ht", // Template ID
+          process.env.REACT_APP_EMAILJS_SERVICE_ID,
+          process.env.REACT_APP_EMAILJS_TEMPLATE_ID,
           emailParams,
-          "b6m2ibEG_uK-BVgH8" // Public Key
+          process.env.REACT_APP_EMAILJS_USER_ID
         );
 
         setValue({
