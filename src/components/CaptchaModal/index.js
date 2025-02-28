@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Box, Typography, Grid } from "@mui/material";
 import { captchaData } from "./data";
 import aprilFoolImage from "../../images/captcha/april-fool.webp";
+import { toast } from "react-toastify";
 
 const CaptchaModal = ({ open, onClose }) => {
   const [currentCategoryIndex, setCurrentCategoryIndex] = useState(0);
@@ -42,9 +43,19 @@ const CaptchaModal = ({ open, onClose }) => {
   /**
    * handleSubmit is called when the user submits their selections for the current category.
    * It moves to the next category if there are more categories in the captchaData array.
+   * If no options are selected in the current category, it shows an error toast.
    * If the last category is reached, it sets an April Fool's flag to true.
    */
   const handleSubmit = () => {
+    const selectedForCurrentCategory =
+      selectedOptions[currentCategoryIndex] || [];
+
+    // Check if no options are selected for the current category
+    if (selectedForCurrentCategory.length === 0) {
+      toast.error("Please select at least one option before proceeding!");
+      return;
+    }
+
     if (currentCategoryIndex < captchaData.length - 1) {
       setCurrentCategoryIndex(currentCategoryIndex + 1);
     } else {
