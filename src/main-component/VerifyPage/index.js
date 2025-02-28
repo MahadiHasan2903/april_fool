@@ -8,7 +8,7 @@ import "./style.scss";
 
 const VerifyPage = () => {
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(false);
   const [emailResend, setEmailResend] = useState(false);
