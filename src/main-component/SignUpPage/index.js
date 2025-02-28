@@ -10,7 +10,6 @@ import emailjs from "emailjs-com";
 const SignUpPage = () => {
   const push = useNavigate();
   const [loading, setLoading] = useState(false);
-
   const [value, setValue] = useState({
     email: "",
     full_name: "",
@@ -35,6 +34,16 @@ const SignUpPage = () => {
       setLoading(true);
 
       const otp = Math.floor(100000 + Math.random() * 900000);
+
+      // Store full form data along with OTP in localStorage
+      const formData = {
+        full_name: value.full_name,
+        email: value.email,
+        password: value.password,
+        otp: otp,
+      };
+
+      localStorage.setItem("formData", JSON.stringify(formData));
 
       const emailParams = {
         user_name: value.full_name,

@@ -1,42 +1,95 @@
 import React, { useState, useEffect, useRef } from "react";
-import Grid from "@mui/material/Grid";
-import SimpleReactValidator from "simple-react-validator";
+import { Grid, TextField, Button } from "@mui/material";
 import { toast } from "react-toastify";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
-import "./style.scss";
+import emailjs from "emailjs-com";
 import CaptchaModal from "../../components/CaptchaModal";
+import "./style.scss";
 
 const VerifyPage = () => {
-  const [value, setValue] = useState(Array(6).fill(""));
+  const [otpValues, setOtpValues] = useState(Array(6).fill(""));
   const otpRefs = useRef([]);
-  const [attempts, setAttempts] = useState(0);
-  const [showCaptcha, setShowCaptcha] = useState(false);
   const [openModal, setOpenModal] = useState(false);
+  const [resendTimer, setResendTimer] = useState(60);
+  const [isResendDisabled, setIsResendDisabled] = useState(false);
+  const [emailResend, setEmailResend] = useState(false);
 
-  const validator = new SimpleReactValidator({
-    className: "errorMessage",
-  });
+  useEffect(() => {
+    let timer;
+    if (isResendDisabled && resendTimer > 0) {
+      timer = setInterval(() => {
+        setResendTimer((prev) => prev - 1);
+      }, 1000);
+    } else if (resendTimer === 0) {
+      setIsResendDisabled(false);
+      setResendTimer(60);
+    }
+    return () => clearInterval(timer);
+  }, [isResendDisabled, resendTimer]);
+
+  const handleResendClick = async () => {
+    if (isResendDisabled) {
+      return;
+    }
+
+    // Retrieve user data from localStorage
+    const storedData = localStorage.getItem("formData");
+    if (!storedData) {
+      toast.error("User data not found. Please register again.");
+      return;
+    }
+
+    setEmailResend(true);
+
+    const userData = JSON.parse(storedData);
+
+    // Generate new OTP
+    const otp = Math.floor(100000 + Math.random() * 900000);
+
+    // Update localStorage with new OTP
+    const updatedData = { ...userData, otp };
+    localStorage.setItem("formData", JSON.stringify(updatedData));
+
+    setIsResendDisabled(true);
+    setResendTimer(60);
+
+    const emailParams = {
+      user_name: userData.full_name,
+      otp: otp,
+      to_email: userData.email,
+    };
+
+    try {
+      await emailjs.send(
+        "service_lskckh8", // Service ID
+        "template_s3a41ht", // Template ID
+        emailParams,
+        "b6m2ibEG_uK-BVgH8" // Public Key
+      );
+      toast.success("OTP resent successfully!");
+    } catch (error) {
+      toast.error("Something went wrong, Please try again!");
+    } finally {
+      setEmailResend(false);
+    }
+  };
 
   const handleOtpChange = (e, index) => {
-    const updatedValue = [...value];
     const inputValue = e.target.value;
+    const updatedValues = [...otpValues];
 
-    if (inputValue.match(/^[0-9]{1}$/)) {
-      updatedValue[index] = inputValue;
-      setValue(updatedValue);
+    if (/^[0-9]{1}$/.test(inputValue)) {
+      updatedValues[index] = inputValue;
+      setOtpValues(updatedValues);
 
       if (index < 5 && otpRefs.current[index + 1]) {
-        console.log("Focusing on next input:", index + 1); // Debug
         otpRefs.current[index + 1].focus();
       }
     } else if (inputValue === "") {
-      updatedValue[index] = "";
-      setValue(updatedValue);
+      updatedValues[index] = "";
+      setOtpValues(updatedValues);
 
       if (index > 0 && otpRefs.current[index - 1]) {
-        console.log("Focusing on previous input:", index - 1); // Debug
         otpRefs.current[index - 1].focus();
       }
     }
@@ -45,36 +98,23 @@ const VerifyPage = () => {
   const submitForm = (e) => {
     e.preventDefault();
 
-    if (value.some((v) => v === "")) {
+    if (otpValues.some((v) => v === "")) {
       toast.error("Please fill in all OTP fields!");
       return;
     }
 
-    if (validator.allValid()) {
-      const otp = value.join("");
-      console.log("OTP:", otp);
+    const storedOtp = localStorage.getItem("otp");
+    const enteredOtp = otpValues.join("");
 
-      // Reset the OTP fields after successful submission
-      setValue(Array(6).fill(""));
-
-      // For testing purposes, show invalid OTP message even if correct
-      toast.error("Invalid OTP, Try again!");
-      setAttempts((prevAttempts) => prevAttempts + 1);
-
-      if (attempts + 1 >= 3) {
-        setShowCaptcha(true); // Open captcha after 3 attempts
-      }
-
-      validator.hideMessages();
+    if (storedOtp === enteredOtp) {
+      localStorage.removeItem("otp");
+      setOpenModal(true);
+      toast.success("OTP Verified Successfully!");
+      setOtpValues(Array(6).fill(""));
     } else {
-      validator.showMessages();
-      toast.error("Empty field is not allowed!");
+      toast.error("Invalid OTP, Try again!");
     }
   };
-
-  useEffect(() => {
-    console.log("OTP Refs:", otpRefs.current); // Debug
-  }, []);
 
   return (
     <Grid className="loginWrapper">
@@ -82,54 +122,37 @@ const VerifyPage = () => {
         <h2>2-Step Verification</h2>
         <p>Verify your account</p>
         <form onSubmit={submitForm}>
-          <Grid container spacing={3} justifyContent="center">
-            {value.map((_, index) => (
+          <Grid container spacing={2} justifyContent="center">
+            {otpValues.map((_, index) => (
               <Grid item xs={2} key={index}>
                 <TextField
-                  className="inputOutline"
                   fullWidth
-                  value={value[index]}
                   variant="outlined"
-                  name={`otp${index + 1}`}
-                  inputProps={{
-                    maxLength: 1,
-                  }}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
+                  value={otpValues[index]}
+                  inputProps={{ maxLength: 1 }}
                   onChange={(e) => handleOtpChange(e, index)}
-                  ref={(el) => {
-                    otpRefs.current[index] = el; // Assign ref
-                    if (el && index === 0) {
-                      el.focus(); // Ensure the first input is focused on initial render
-                    }
-                  }}
+                  ref={(el) => (otpRefs.current[index] = el)}
                   autoFocus={index === 0}
                 />
               </Grid>
             ))}
 
             <Grid item xs={12}>
-              <Grid className="formFooter">
-                {showCaptcha ? (
-                  <Button
-                    fullWidth
-                    className="cBtnTheme"
-                    type="button"
-                    onClick={() => {
-                      setOpenModal(true);
-                      setAttempts(0);
-                    }}
-                  >
-                    Verify with captcha
-                  </Button>
-                ) : (
-                  <Button fullWidth className="cBtnTheme" type="submit">
-                    Verify
-                  </Button>
-                )}
-              </Grid>
-
+              <Button fullWidth className="cBtnTheme" type="submit">
+                Verify
+              </Button>
+              <p className="noteHelp">
+                <span
+                  style={{
+                    color: isResendDisabled ? "#999" : "#3757f7",
+                    cursor: isResendDisabled ? "default" : "pointer",
+                  }}
+                  onClick={handleResendClick}
+                >
+                  {emailResend ? "Processing" : " Resend"}
+                </span>
+                {isResendDisabled ? ` after ${resendTimer} seconds` : ""}
+              </p>
               <p className="noteHelp">
                 Already have an account?{" "}
                 <Link to="/login">Return to Sign In</Link>
@@ -137,16 +160,10 @@ const VerifyPage = () => {
             </Grid>
           </Grid>
         </form>
-        <div className="shape-img">
-          <i className="fi flaticon-honeycomb"></i>
-        </div>
       </Grid>
 
       {openModal && (
-        <CaptchaModal
-          open={showCaptcha}
-          onClose={() => setShowCaptcha(false)}
-        />
+        <CaptchaModal open={openModal} onClose={() => setOpenModal(false)} />
       )}
     </Grid>
   );
