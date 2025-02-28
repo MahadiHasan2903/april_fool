@@ -8,11 +8,11 @@ import "./style.scss";
 
 const VerifyPage = () => {
   const [otpValues, setOtpValues] = useState(Array(6).fill(""));
-  const otpRefs = useRef([]);
   const [openModal, setOpenModal] = useState(false);
   const [resendTimer, setResendTimer] = useState(60);
   const [isResendDisabled, setIsResendDisabled] = useState(false);
   const [emailResend, setEmailResend] = useState(false);
+  const otpRefs = useRef(Array(6).fill(null));
 
   useEffect(() => {
     let timer;
@@ -78,18 +78,20 @@ const VerifyPage = () => {
     const inputValue = e.target.value;
     const updatedValues = [...otpValues];
 
-    if (/^[0-9]{1}$/.test(inputValue)) {
+    if (/^[0-9]$/.test(inputValue)) {
       updatedValues[index] = inputValue;
       setOtpValues(updatedValues);
 
-      if (index < 5 && otpRefs.current[index + 1]) {
+      // Move to the next input field if it exists
+      if (index < otpRefs.current.length - 1) {
         otpRefs.current[index + 1].focus();
       }
     } else if (inputValue === "") {
       updatedValues[index] = "";
       setOtpValues(updatedValues);
 
-      if (index > 0 && otpRefs.current[index - 1]) {
+      // Move to the previous input field if it exists
+      if (index > 0) {
         otpRefs.current[index - 1].focus();
       }
     }
@@ -103,10 +105,13 @@ const VerifyPage = () => {
       return;
     }
 
-    const storedOtp = localStorage.getItem("otp");
+    const storedData = localStorage.getItem("formData");
+    const userData = JSON.parse(storedData);
+    const storedOtp = userData.otp;
+
     const enteredOtp = otpValues.join("");
 
-    if (storedOtp === enteredOtp) {
+    if (Number(storedOtp) === Number(enteredOtp)) {
       localStorage.removeItem("otp");
       setOpenModal(true);
       toast.success("OTP Verified Successfully!");
@@ -131,7 +136,7 @@ const VerifyPage = () => {
                   value={otpValues[index]}
                   inputProps={{ maxLength: 1 }}
                   onChange={(e) => handleOtpChange(e, index)}
-                  ref={(el) => (otpRefs.current[index] = el)}
+                  inputRef={(el) => (otpRefs.current[index] = el)}
                   autoFocus={index === 0}
                 />
               </Grid>
