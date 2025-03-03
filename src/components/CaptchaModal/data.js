@@ -29,7 +29,7 @@ import math6 from "../../images/captcha/math6.png";
 
 export const captchaData = [
   {
-    title: "Select square with the circle",
+    title: "Select the circle",
     options: [
       {
         image: hexagon,
@@ -58,7 +58,7 @@ export const captchaData = [
     ],
   },
   {
-    title: "Select square with the bat",
+    title: "Select the bat",
     options: [
       {
         image: bat1,
@@ -75,7 +75,7 @@ export const captchaData = [
     ],
   },
   {
-    title: "Select squares with the cloud",
+    title: "Select the cloud",
     options: [
       {
         image: cloud1,
@@ -104,7 +104,7 @@ export const captchaData = [
     ],
   },
   {
-    title: "Select square with the mouse",
+    title: "Select the mouse",
     options: [
       {
         image: mouse1,
@@ -121,7 +121,7 @@ export const captchaData = [
     ],
   },
   {
-    title: "Select square with the convergent improper integrals",
+    title: "Select the convergent improper integrals",
     options: [
       {
         image: math1,
