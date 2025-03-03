@@ -46,9 +46,9 @@ const Projects = (props) => {
           </div>
           <div className="col-lg-6 col-sm-4">
             <div className="wpo-section-title-button">
-              <Link onClick={ClickHandler} to="/project">
+              {/* <Link onClick={ClickHandler} to="/project">
                 More Solutions
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

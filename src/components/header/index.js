@@ -26,14 +26,19 @@ export default class Header extends Component {
     };
     return (
       <header id="header" className="wpo-site-header">
-        <nav className="navigation navbar navbar-expand-lg navbar-light">
+        <nav
+          className="navigation navbar navbar-expand-lg navbar-light"
+          style={{
+            justifyContent: "space-between",
+          }}
+        >
           <div className="container-fluid">
-            <div className="row align-items-center">
-              <div className="col-lg-3 col-md-3 col-3 d-lg-none dl-block">
-                <div className="mobail-menu">
-                  <MobileMenu />
-                </div>
-              </div>
+            <div
+              className="row align-items-center "
+              style={{
+                padding: "20px 0px",
+              }}
+            >
               <div className="col-lg-3 col-md-6 col-6">
                 <div className="navbar-header">
                   <Link
@@ -45,8 +50,26 @@ export default class Header extends Component {
                   </Link>
                 </div>
               </div>
+              <div
+                className="col-lg-6 col-md-6 col-6 d-lg-none dl-block"
+                style={{
+                  display: "flex",
+                  justifyContent: "end",
+                }}
+              >
+                {/* <div className="mobail-menu">
+                  <MobileMenu />
+                </div> */}
+                <Link
+                  onClick={ClickHandler}
+                  className="theme-btn"
+                  to="/register"
+                >
+                  Register Now
+                </Link>
+              </div>
               <div className="col-lg-6 col-md-1 col-1">
-                <div
+                {/* <div
                   id="navbar"
                   className="collapse navbar-collapse navigation-holder"
                 >
@@ -81,7 +104,7 @@ export default class Header extends Component {
                       </Link>
                     </li>
                   </ul>
-                </div>
+                </div> */}
               </div>
               <div className="col-lg-3 col-md-2 col-2">
                 <div className="header-right">
@@ -89,9 +112,9 @@ export default class Header extends Component {
                     <Link
                       onClick={ClickHandler}
                       className="theme-btn"
-                      to="/login"
+                      to="/register"
                     >
-                      Join Us
+                      Register Now
                     </Link>
                   </div>
                 </div>

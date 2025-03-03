@@ -22,9 +22,9 @@ const Support = (props) => {
             </p>
           </div>
           <div className="wpo-support-btn">
-            <Link onClick={ClickHandler} to="/contact">
+            {/* <Link onClick={ClickHandler} to="/register">
               Ask Support Ticket
-            </Link>
+            </Link> */}
           </div>
         </div>
       </div>

@@ -53,7 +53,7 @@ const About = (props) => {
                 </div>
                 <Link
                   onClick={ClickHandler}
-                  to="/about"
+                  to="/register"
                   className="btn theme-btn"
                 >
                   More About

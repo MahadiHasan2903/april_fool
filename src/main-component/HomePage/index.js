@@ -24,7 +24,7 @@ const HomePage = () => {
       <FunFact fnClass={"wpo-fun-fact-section-s2"} />
       <Projects />
       <Testimonial />
-      <Support />
+      {/* <Support /> */}
       <Footer />
       <Scrollbar />
     </Fragment>

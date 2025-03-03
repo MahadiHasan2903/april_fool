@@ -15,7 +15,7 @@ const Pricing = (props) => {
       li4: "Dedicated support",
       li5: "Monthly payroll reports",
       title: "Basic Pack",
-      link: "/login",
+      link: "/register",
     },
     {
       fIcon: "fi flaticon-stats",
@@ -25,7 +25,7 @@ const Pricing = (props) => {
       li4: "Advanced analytics",
       li5: "Quarterly reports",
       title: "Standard Pack",
-      link: "/login",
+      link: "/register",
     },
     {
       fIcon: "fi flaticon-trophy",
@@ -35,7 +35,7 @@ const Pricing = (props) => {
       li4: "Custom payroll reports",
       li5: "Dedicated account manager",
       title: "Enterprise Pack",
-      link: "/login",
+      link: "/register",
     },
   ];
 
