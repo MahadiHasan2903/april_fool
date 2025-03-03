@@ -45,18 +45,18 @@ const About = (props) => {
                   payroll complexities, helping you focus on what matters
                   most—growing your business.
                 </p>
-                <div className="signeture">
+                {/* <div className="signeture">
                   <span>
                     <img src={sign} alt="" />
                   </span>
                   <p>Robert William, CEO</p>
-                </div>
+                </div> */}
                 <Link
                   onClick={ClickHandler}
                   to="/register"
                   className="btn theme-btn"
                 >
-                  More About
+                  Register Now
                 </Link>
               </div>
             </div>
