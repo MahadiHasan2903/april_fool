@@ -9,55 +9,40 @@ const CaptchaModal = ({ open, onClose }) => {
   const [isAprilFool, setIsAprilFool] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState({});
 
-  /**
-   * currentCategory holds the data for the current category being displayed.
-   * It is derived from the captchaData array using the currentCategoryIndex.
-   */
   const currentCategory = captchaData[currentCategoryIndex];
 
   /**
    * handleOptionClick is invoked when a user clicks on an option in the current category.
-   * It updates the selected options for the current category. If the option is already selected, it removes it;
-   * if not, it adds it to the selected options.
+   * It updates the selected option for the current category (single select).
    */
   const handleOptionClick = (optionIndex) => {
-    setSelectedOptions((prevSelected) => {
-      const categorySelected = prevSelected[currentCategoryIndex] || [];
-
-      if (categorySelected.includes(optionIndex)) {
-        return {
-          ...prevSelected,
-          [currentCategoryIndex]: categorySelected.filter(
-            (index) => index !== optionIndex
-          ),
-        };
-      } else {
-        return {
-          ...prevSelected,
-          [currentCategoryIndex]: [...categorySelected, optionIndex],
-        };
-      }
-    });
+    setSelectedOptions((prevSelected) => ({
+      ...prevSelected,
+      [currentCategoryIndex]: [optionIndex], // Store as array with single item for consistency
+    }));
   };
 
   /**
-   * handleSubmit is called when the user submits their selections for the current category.
+   * handleSubmit is called when the user submits their selection for the current category.
    * It moves to the next category if there are more categories in the captchaData array.
-   * If no options are selected in the current category, it shows an error toast.
+   * If no option is selected in the current category, it shows an error toast.
    * If the last category is reached, it sets an April Fool's flag to true.
    */
   const handleSubmit = () => {
-    const selectedForCurrentCategory =
-      selectedOptions[currentCategoryIndex] || [];
+    const selectedForCurrentCategory = selectedOptions[currentCategoryIndex];
 
-    // Check if no options are selected for the current category
-    if (selectedForCurrentCategory.length === 0) {
-      toast.error("Please select at least one option before proceeding!");
+    // Check if no option is selected for the current category
+    if (
+      !selectedForCurrentCategory ||
+      selectedForCurrentCategory.length === 0
+    ) {
+      toast.error("Please select an option before proceeding!");
       return;
     }
 
     if (currentCategoryIndex < captchaData.length - 1) {
       setCurrentCategoryIndex(currentCategoryIndex + 1);
+      toast.error("That's not quite right. Give it another shot!");
     } else {
       setIsAprilFool(true);
     }
@@ -79,10 +64,10 @@ const CaptchaModal = ({ open, onClose }) => {
           borderRadius: 2,
           boxShadow: 24,
           padding: 3,
-          maxHeight: "90vh",
+          maxHeight: "80vh",
           overflow: "auto",
           width: "90%",
-          maxWidth: "1200px",
+          maxWidth: "800px",
         }}
       >
         {isAprilFool ? (
@@ -123,65 +108,61 @@ const CaptchaModal = ({ open, onClose }) => {
                 alignItems="center"
                 gap={1}
               >
-                {currentCategory.options.map((option, itemIndex) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={5.8}
-                    md={3.8}
-                    key={itemIndex}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      border: `2px solid ${
-                        selectedOptions[currentCategoryIndex]?.includes(
-                          itemIndex
-                        )
-                          ? "#5c6ac5"
-                          : "#666"
-                      }`,
-                      padding: "30px",
-                      position: "relative",
-                      cursor: "pointer",
-                    }}
-                    onClick={() => handleOptionClick(itemIndex)}
-                  >
-                    <Box
+                {currentCategory.options.map((option, itemIndex) => {
+                  const isSelected =
+                    selectedOptions[currentCategoryIndex]?.includes(itemIndex);
+                  return (
+                    <Grid
+                      item
+                      xs={12}
+                      sm={5.8}
+                      md={3.9}
                       sx={{
-                        minWidth: "100px",
-                        minHeight: "70px",
-                        width: "200px",
-                        height: { xs: "100px", sm: "200px" },
-                        borderRadius: 1,
-                        overflow: "hidden",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundImage: `url(${option.image})`,
-                        backgroundSize: "contain",
-                        backgroundPosition: "center",
-                        backgroundRepeat: "no-repeat",
+                        position: "relative",
+                        cursor: "pointer",
+                        marginX: "-20px",
                       }}
                     >
-                      {selectedOptions[currentCategoryIndex]?.includes(
-                        itemIndex
-                      ) && (
-                        <Box
-                          sx={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            borderRadius: "inherit",
-                          }}
-                        />
-                      )}
-                    </Box>
-                  </Grid>
-                ))}
+                      <Box
+                        sx={{
+                          minWidth: "100px",
+                          minHeight: "70px",
+                          width: "200px",
+                          height: { xs: "100px", sm: "200px" },
+                          borderRadius: 1,
+                          overflow: "hidden",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          backgroundImage: `url(${option.image})`,
+                          backgroundSize: "cover",
+                          backgroundPosition: "center",
+                          backgroundRepeat: "no-repeat",
+                        }}
+                        onClick={() => handleOptionClick(itemIndex)}
+                        key={itemIndex}
+                      >
+                        {isSelected && (
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              width: "84%",
+                              height: "100%",
+                              backgroundColor: "rgba(0, 0, 0, 0.5)",
+                              borderRadius: "inherit",
+                              marginX: "20px",
+                            }}
+                          />
+                        )}
+                      </Box>
+                    </Grid>
+                  );
+                })}
               </Grid>
               <Box
                 sx={{

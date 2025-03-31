@@ -27,6 +27,20 @@ import math4 from "../../images/captcha/math4.png";
 import math5 from "../../images/captcha/math5.png";
 import math6 from "../../images/captcha/math6.png";
 
+import bike1 from "../../images/captcha/bike1.png";
+import bike2 from "../../images/captcha/bike2.png";
+import bike3 from "../../images/captcha/bike3.png";
+import bike4 from "../../images/captcha/bike4.png";
+import bike5 from "../../images/captcha/bike5.png";
+import bike6 from "../../images/captcha/bike6.png";
+
+import cat1 from "../../images/captcha/cat1.png";
+import cat2 from "../../images/captcha/cat2.png";
+import cat3 from "../../images/captcha/cat3.png";
+import cat4 from "../../images/captcha/cat4.png";
+import cat5 from "../../images/captcha/cat5.png";
+import cat6 from "../../images/captcha/cat6.png";
+
 export const captchaData = [
   {
     title: "Select the circle",
@@ -74,35 +88,7 @@ export const captchaData = [
       },
     ],
   },
-  {
-    title: "Select the cloud",
-    options: [
-      {
-        image: cloud1,
-        answer: true,
-      },
-      {
-        image: cloud2,
-        answer: false,
-      },
-      {
-        image: cloud3,
-        answer: false,
-      },
-      {
-        image: cloud4,
-        answer: true,
-      },
-      {
-        image: cloud5,
-        answer: false,
-      },
-      {
-        image: cloud6,
-        answer: false,
-      },
-    ],
-  },
+
   {
     title: "Select the mouse",
     options: [
@@ -114,37 +100,66 @@ export const captchaData = [
         image: mouse2,
         answer: false,
       },
+      // {
+      //   image: mouse3,
+      //   answer: false,
+      // },
+    ],
+  },
+  {
+    title: "Select the bike",
+    options: [
       {
-        image: mouse3,
+        image: bike1,
+        answer: true,
+      },
+      {
+        image: bike2,
+        answer: false,
+      },
+      {
+        image: bike3,
+        answer: false,
+      },
+      {
+        image: bike4,
+        answer: true,
+      },
+      {
+        image: bike5,
+        answer: false,
+      },
+      {
+        image: bike6,
         answer: false,
       },
     ],
   },
   {
-    title: "Select the convergent improper integrals",
+    title: "Find the cat",
     options: [
       {
-        image: math1,
+        image: cat1,
         answer: true,
       },
       {
-        image: math2,
+        image: cat2,
         answer: false,
       },
       {
-        image: math3,
+        image: cat3,
         answer: false,
       },
       {
-        image: math4,
+        image: cat4,
         answer: true,
       },
       {
-        image: math5,
+        image: cat5,
         answer: false,
       },
       {
-        image: math6,
+        image: cat6,
         answer: false,
       },
     ],
