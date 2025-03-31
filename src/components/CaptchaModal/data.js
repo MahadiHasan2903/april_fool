@@ -43,7 +43,7 @@ import cat6 from "../../images/captcha/cat6.png";
 
 export const captchaData = [
   {
-    title: "Select the circle",
+    title: "Select the shape with exactly seven sides.",
     options: [
       {
         image: hexagon,
