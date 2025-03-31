@@ -138,7 +138,7 @@ const CaptchaModal = ({ open, onClose }) => {
                           justifyContent: "center",
                           alignItems: "center",
                           backgroundImage: `url(${option.image})`,
-                          backgroundSize: "cover",
+                          backgroundSize: "contain",
                           backgroundPosition: "center",
                           backgroundRepeat: "no-repeat",
                         }}
