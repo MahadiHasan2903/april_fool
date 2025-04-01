@@ -164,4 +164,33 @@ export const captchaData = [
       },
     ],
   },
+  {
+    title: "Select the convergent improper integrals",
+    options: [
+      {
+        image: math1,
+        answer: true,
+      },
+      {
+        image: math2,
+        answer: false,
+      },
+      {
+        image: math3,
+        answer: false,
+      },
+      {
+        image: math4,
+        answer: true,
+      },
+      {
+        image: math5,
+        answer: false,
+      },
+      {
+        image: math6,
+        answer: false,
+      },
+    ],
+  },
 ];
